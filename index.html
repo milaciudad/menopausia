@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Revolución Interior Comienza Ahora | Mila Ciudad</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FDFCFB;
+            background-image: radial-gradient(circle at 10% 10%, #fdf5f7 0%, transparent 50%),
+                               radial-gradient(circle at 80% 90%, #f5f8fd 0%, transparent 40%);
+            color: #2c2a4a;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            /* Degradado actualizado para un tono fucsia más dominante */
+            background: linear-gradient(90deg, #D946EF, #F472B6, #D946EF); /* De fucsia a rosa más claro y de nuevo a fucsia */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% auto;
+        }
+        
+        .card-grid-container {
+            perspective: 1000px;
+        }
+
+        .portal-card {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid #ffffff;
+            border-radius: 1.5rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s ease;
+            display: block;
+            overflow: hidden;
+            will-change: transform;
+        }
+        
+        .portal-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease-out;
+            filter: blur(25px);
+        }
+
+        .portal-card:hover {
+            box-shadow: 0 16px 45px rgba(31, 38, 135, 0.2);
+            transform: translateY(-12px) rotateX(8deg) scale(1.05);
+        }
+
+        .portal-card:hover::before {
+            opacity: 0.6;
+        }
+        
+        .card-content {
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .portal-card:hover .card-content {
+            transform: translateY(-8px);
+        }
+        
+        .icon-wrapper {
+            font-size: 2rem;
+            margin-bottom: 1.25rem;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .portal-card:hover .icon-wrapper {
+            transform: translateY(-5px) rotate(15deg) scale(1.2);
+        }
+
+        .explore-link {
+            font-weight: 600;
+            color: #585577;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        
+        /* --- LÓGICA DEL SUBRAYADO CORREGIDA --- */
+        .explore-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; /* Empieza invisible */
+            height: 2px;
+            /* La transición ahora es solo sobre el ancho (width) */
+            transition: width 0.4s ease-out; 
+        }
+
+        /* El hover ahora solo cambia el ancho, haciendo que la línea aparezca */
+        .portal-card:hover .explore-link::after {
+            width: 100%;
+        }
+
+        /* --- Clases de color para cada tarjeta (Ahora definen el color del icono y de la línea) --- */
+        /* 1. Magenta */
+        .card-color-1 .icon-wrapper { color: #A21CAF; }
+        .card-color-1::before { background-color: #D946EF; }
+        .card-color-1 .explore-link::after { background-color: #A21CAF; }
+        
+        /* 2. Turquesa */
+        .card-color-2 .icon-wrapper { color: #0F766E; }
+        .card-color-2::before { background-color: #14B8A6; }
+        .card-color-2 .explore-link::after { background-color: #0F766E; }
+
+        /* 3. Verde Lima */
+        .card-color-3 .icon-wrapper { color: #65A30D; }
+        .card-color-3::before { background-color: #84CC16; }
+        .card-color-3 .explore-link::after { background-color: #65A30D; }
+
+        /* 4. Azul Cielo */
+        .card-color-4 .icon-wrapper { color: #0284C7; }
+        .card-color-4::before { background-color: #38BDF8; }
+        .card-color-4 .explore-link::after { background-color: #0284C7; }
+
+        /* 5. Ámbar */
+        .card-color-5 .icon-wrapper { color: #D97706; }
+        .card-color-5::before { background-color: #F59E0B; }
+        .card-color-5 .explore-link::after { background-color: #D97706; }
+
+        /* 6. Rosa */
+        .card-color-6 .icon-wrapper { color: #DB2777; }
+        .card-color-6::before { background-color: #F472B6; }
+        .card-color-6 .explore-link::after { background-color: #DB2777; }
+        
+        /* Animaciones de entrada */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-on-scroll {
+            opacity: 0; animation-fill-mode: forwards;
+        }
+        .animate-on-scroll.is-visible {
+            animation-name: fadeInUp; animation-duration: 0.8s; animation-timing-function: ease-out;
+        }
+    </style>
+</head>
+<body class="antialiased leading-relaxed">
+
+    <main class="relative z-10 max-w-5xl mx-auto px-4 py-16 sm:px-6 sm:py-24">
+
+        <header class="text-center mb-20 animate-on-scroll">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 gradient-text">La Menopausia es una Revolución, no un Final.</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto" style="animation-delay: 0.2s;">
+                Bienvenida a tu espacio seguro. Aquí encontrarás la guía definitiva para navegar esta etapa con conocimiento, confianza y el poder de sentirte mejor que nunca.
+            </p>
+        </header>
+
+        <!-- Sección para la imagen centrada -->
+        <section class="text-center mb-20 animate-on-scroll" style="animation-delay: 0.3s;">
+            <div class="max-w-2xl mx-auto">
+                <img src="https://i.ibb.co/QjQB10sW/MILACIUDAD-SALUD-ACTIVA.png" 
+                     alt="Imagen de bienvenida a la guía de menopausia" 
+                     class="w-full h-auto rounded-xl shadow-lg"
+                     width="800" height="400" loading="lazy">
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-center text-3xl font-bold text-gray-800 mb-12 animate-on-scroll" style="animation-delay: 0.4s;">Explora tu Guía de Bienestar</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 card-grid-container">
+                
+                <a href="https://www.milaciudad.com/p/menopausia-tu-guia-completa-para-una.html" class="portal-card animate-on-scroll card-color-1" style="animation-delay: 0.6s;">
+                    <div class="card-content">
+                        <div class="icon-wrapper">📖</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Comprender la Etapa</h3>
+                        <p class="text-gray-600 text-sm mb-6">Conoce las fases y el lenguaje de tu cuerpo con claridad y sin tabúes.</p>
+                        <span class="explore-link">Explorar</span>
+                    </div>
+                </a>
+                
+                <a href="https://www.milaciudad.com/p/menopausia-tu-guia-completa-para-una.html" class="portal-card animate-on-scroll card-color-2" style="animation-delay: 0.7s;">
+                    <div class="card-content">
+                        <div class="icon-wrapper">🧭</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Navegando los Síntomas</h3>
+                        <p class="text-gray-600 text-sm mb-6">Soluciones y alivio para los síntomas comunes y aquellos menos conocidos.</p>
+                        <span class="explore-link">Explorar</span>
+                    </div>
+                </a>
+                
+                <a href="https://www.milaciudad.com/p/menopausia-tu-guia-completa-para-una.html" class="portal-card animate-on-scroll card-color-3" style="animation-delay: 0.8s;">
+                    <div class="card-content">
+                        <div class="icon-wrapper">⚖️</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Nutrición y Suplementos</h3>
+                        <p class="text-gray-600 text-sm mb-6">Alimenta tu vitalidad con una guía de nutrientes y apoyos naturales en equilibrio.</p>
+                        <span class="explore-link">Explorar</span>
+                    </div>
+                </a>
+
+                <a href="https://www.milaciudad.com/p/menopausia-tu-guia-completa-para-una.html" class="portal-card animate-on-scroll card-color-4" style="animation-delay: 0.9s;">
+                    <div class="card-content">
+                        <div class="icon-wrapper">〰</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Estilo de Vida y Movimiento</h3>
+                        <p class="text-gray-600 text-sm mb-6">El poder del ejercicio, el descanso y los hábitos que te renuevan con fluidez.</p>
+                        <span class="explore-link">Explorar</span>
+                    </div>
+                </a>
+                
+                <a href="https://www.milaciudad.com/p/menopausia-tu-guia-completa-para-una.html" class="portal-card animate-on-scroll card-color-5" style="animation-delay: 1.0s;">
+                    <div class="card-content">
+                        <div class="icon-wrapper">⟡</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Bienestar Mental</h3>
+                        <p class="text-gray-600 text-sm mb-6">Encuentra la claridad y cultiva la serenidad en tu día a día.</p>
+                        <span class="explore-link">Explorar</span>
+                    </div>
+                </a>
+
+                <a href="https://www.milaciudad.com/p/menopausia-tu-guia-completa-para-una.html" class="portal-card animate-on-scroll card-color-6" style="animation-delay: 1.1s;">
+                    <div class="card-content">
+                        <div class="icon-wrapper">🤍</div>
+                        <h3 class="text-xl font-bold mb-2 text-gray-800">Salud Íntima y Sexualidad</h3>
+                        <p class="text-gray-600 text-sm mb-6">Reconecta con tu placer y bienestar íntimo con confianza y cuidado.</p>
+                        <span class="explore-link">Explorar</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="text-center py-12">
+        <p class="text-gray-400 text-sm">Mila Ciudad © 2025</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            elementsToAnimate.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
